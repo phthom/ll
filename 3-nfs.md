@@ -124,7 +124,7 @@ nfs-client                 cluster.local/vigilant-grizzly-nfs-client-provisioner
 
 
 
-##4. Testing
+## 4. Testing
 
 Let's request a Persistent Volume Claim (PVC). Create and apply the following K8s object,
 
