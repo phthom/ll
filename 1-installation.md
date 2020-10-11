@@ -202,7 +202,9 @@ root:D9xc5yvd@158.176.83.198
 root:AK2xVbj8@158.176.122.38
 ```
 
-###Step 4: Configure the /etc/hosts
+
+
+### Step 4: Configure the /etc/hosts
 
 We now need to create an **/etc/hosts** file for all nodes. **Execute** the following commands:
 
@@ -235,7 +237,7 @@ Check the results (as an example):
 
 
 
-#Task 3: Install Docker on the master node
+# Task 3: Install Docker on the master node
 
 First, you need to create a file that will be used to install Docker on the master (a file containing docker installation **icp-docker-18.09.7_x86_64.bin** has been already uploaded on your master). 
 
@@ -286,7 +288,7 @@ Find below the commands to install Docker in case:
 
 
 
-#Task 4: Download ICP installation code
+# Task 4: Download ICP installation code
 
 You can get the ICP zip file into the Passport Advantage IBM web site.
 
@@ -320,7 +322,7 @@ It is necessary to load the images (from this zip file) into Docker. We already 
 
 
 
-#Task 5: Create ssh keys
+# Task 5: Create ssh keys
 
 On the master, we need to generate ssh keys that we will copy across the cluster for **secure communications**. 
 
@@ -471,7 +473,7 @@ service_cluster_ip_range: 10.0.0.0/16
 
 
 
-#Task 7: Install ICP Enterprise Edition
+# Task 7: Install ICP Enterprise Edition
 
 Type the following command to install ICP Cluster on the 4 nodes:
 
@@ -717,8 +719,6 @@ The Catalog shows Charts that you can visit (it could take au few seconds to ref
 You can look at the (helm) catalog and visit some entries (but don't create any application at the moment).
 
 ![image-20190322182137396](images/image-20190322182137396-3275297.png)
-
-
 
 
 
