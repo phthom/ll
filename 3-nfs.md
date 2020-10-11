@@ -16,7 +16,7 @@ Kubernetes support the NFS based Persistent Volume (PV).
 
 This document explains the steps to enable the NFS dynamic volume provisioning in IBM Cloud Private (ICP) 3.2, and some simple validation test.
 
-### 1. Configuring a NFS server
+## 1. Configuring a NFS server
 
 Find below some basic instructions to setup and configure a NFS server. 
 
