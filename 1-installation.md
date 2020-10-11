@@ -75,6 +75,8 @@ Everything has been made with automation in mind.
 
 # Task 2: Step by step configuration
 
+
+
 ### Step 1: Login to the master machine
 
 You must use <u>ssh</u> or <u>putty</u> to the **master node**.
@@ -170,7 +172,7 @@ Then retry to echo the $M1IP.
 
 
 
-###Step 3: Create a credential file for all your nodes
+### Step 3: Create a credential file for all your nodes
 
 We need to create a credential file for some next steps (to distribute automaticaly all keys and /etc/hosts to all nodes). 
 
