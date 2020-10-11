@@ -343,7 +343,7 @@ clusterimagepolicy.securityenforcement.admission.cloud.ibm.com/calico-cluster-im
 
 ### Create the frontend, backend, client, and management-ui apps
 
-Use the following commands to create and run multiple applications and services (**cut & paste** in the terminal):
+Use the following commands to create and run multiple applications and services (**cut & paste** in the terminal) - or - you can find the file **ecalico.yaml ** in the instructor **GitHub** :
 
 ```console
 kubectl create -f - <<EOF
