@@ -3,7 +3,7 @@
 
 
 ---
-# Install an Application Lab
+# Install an Application with helm Lab
 ---
 
 
