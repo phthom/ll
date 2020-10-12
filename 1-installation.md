@@ -337,10 +337,15 @@ docker run -v $(pwd):/data -e LICENSE=accept ibmcom/icp-inception-amd64:3.2.1.20
 ssh-keygen -b 4096 -f ~/.ssh/id_rsa -N ""
 cat ~/.ssh/id_rsa.pub | tee -a ~/.ssh/authorized_keys
 systemctl restart sshd
+
+```
+
+Then
+
+```bash
 rm -f /opt/icp/cluster/ssh_key
 \cp ~/.ssh/id_rsa /opt/icp/cluster/ssh_key
 ls -l /opt/icp/cluster/ssh_key
-
 ```
 
 > The result : id_rsa key is copied in the cluster directory.
@@ -380,6 +385,33 @@ tr ':@' '\n' < credentials | xargs -L3 sh -c 'ssh -o StrictHostKeyChecking=no $0
 
 After this step, we will no longer need passwords to access worker nodes.
 
+Results
+
+```bash
+tr ':@' '\n' < credentials | xargs -L3 sh -c 'sshpass -p $1 ssh-copy-id -o StrictHostKeyChecking=no -f $0@$2'
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'StrictHostKeyChecking=no' 'root@161.156.96.199'"
+and check to make sure that only the key(s) you wanted were added.
+
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'StrictHostKeyChecking=no' 'root@161.156.96.205'"
+and check to make sure that only the key(s) you wanted were added.
+
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'StrictHostKeyChecking=no' 'root@161.156.96.195'"
+and check to make sure that only the key(s) you wanted were added.
+
+```
+
 
 
 ### Copy /etc/hosts on all nodes
@@ -391,6 +423,15 @@ tr ':@' '\n' < credentials | xargs -L3 sh -c 'scp -o StrictHostKeyChecking=no /e
 ```
 
 Then we will use hostnames to get access to worker nodes instead of IP addresses.
+
+Results
+
+```bash
+tr ':@' '\n' < credentials | xargs -L3 sh -c 'scp -o StrictHostKeyChecking=no /etc/hosts $0@$2:/etc/hosts'
+hosts                                                                                                                     100%  261   652.4KB/s   00:00    
+hosts                                                                                                                     100%  261   400.7KB/s   00:00    
+hosts                                                                                                                     100%  261   473.8KB/s   00:00   
+```
 
 
 
@@ -421,20 +462,39 @@ Configure the **config.yaml** file. To do so, **Execute** the following commands
 ```bash
 cd /opt/icp/cluster
 sed -i "s/# cluster_name: mycluster/cluster_name: $CLUSTERNAME/g" /opt/icp/cluster/config.yaml
-sed -i 's/  vulnerability-advisor: disabled/  vulnerability-advisor: disabled/g' /opt/icp/cluster/config.yaml
 sed -i "s/# default_admin_password:/default_admin_password: $CLUSTERPASS/g" /opt/icp/cluster/config.yaml
 sed -i 's/# install_docker: true/install_docker: true/g' /opt/icp/cluster/config.yaml
+```
+
+then continue:
+
+```bash
+sed -i 's/  vulnerability-advisor: enabled/  vulnerability-advisor: disabled/g' /opt/icp/cluster/config.yaml
+```
+
+Go ahead with:
+
+```bash
+sed -i 's/  istio: disabled/  istio: enabled/g' /opt/icp/cluster/config.yaml
+sed -i 's/# istio_addon:/istio_addon:/g' /opt/icp/cluster/config.yaml
+sed -i 's/#   grafana:/  grafana:/g' /opt/icp/cluster/config.yaml
+sed -i 's/#     username: admin/    username: admin/g' /opt/icp/cluster/config.yaml
+sed -i 's/#     passphrase: admin/    passphrase: admin/g' /opt/icp/cluster/config.yaml
+sed -i 's/#   kiali:/  kiali:/g' /opt/icp/cluster/config.yaml
 echo "password_rules:" >> /opt/icp/cluster/config.yaml
 echo "- '(.*)'" >> /opt/icp/cluster/config.yaml
 ```
 
+
+
 > Note: These commands will configure config.yaml file to change the following:
 >
 > - cluster name is set
-> - VA (Vulnerability Advisor) will be installed in the master node
+> - VA (Vulnerability Advisor) will NOT be installed in the master node
 > - Admin password is set 
 > - Docker will be installed automatically on the worker nodes
 > - Password rule is set to anything (New and important !)
+> - ISTIO, Kiali, grafana will be installed
 
 
 
@@ -444,7 +504,7 @@ To understand the installation setup, you can look at the **config.yaml** file w
 nano /opt/icp/cluster/config.yaml
 ```
 
-Review some options (**but don't change any parameters**) :
+Review some options (**but don't change any parameters**) : Ctrl+x  to exit from nano
 
 ```
 # Licensed Materials - Property of IBM
@@ -465,7 +525,7 @@ network_cidr: 10.1.0.0/16
 service_cluster_ip_range: 10.0.0.0/16
 
 # cluster_domain: cluster.local
-# cluster_name: mycluster
+# cluster_name: nicekkk
 # cluster_CA_domain: "{{ cluster_name }}.icp"
 
 ...
@@ -491,7 +551,7 @@ At the end of the ICP installation, you will get the following results:
 
 Take a note of the URL : `https://<masterip>:8443`
 
-> **Important Note** : in case of error, you can either **retry** the installation command **or** you can use the **uninstall** process (it takes generally 2 minutes) :
+> **Important Note** : in case of **error**, you can either **retry** the installation command **or** you can use the **uninstall** process (it takes generally 5 minutes) :
 
 ```console 
 cd /opt/icp/cluster
@@ -746,11 +806,11 @@ You finally went thru the following features :
 
 # Appendix: "All in One" Script 
 
-Find below one script file for the automated installation (All in one script - dont forget to change the IPs, passwords, clustername and prefix).
+Find below one script file for the automated installation (All in One script - dont forget to change the IPs, passwords, clustername and prefix). This is an **example**.
 
 Follow the steps :
 
-- copy the lines into a file like **icpinstall.sh** in you /root directory
+- copy the lines into a file like **icpinstall.sh** in your /root directory
 - edit the file and change the **IPs, passwords, clustername and prefix** from the icpinit file or your own requirements
 - change the permission: `chmod +x icpinstall.sh`
 - Execute the script: `./icpinstall.sh`
