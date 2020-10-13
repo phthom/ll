@@ -39,9 +39,9 @@ Let's say that we have a **prefix hostname** (**nicekkk** in my example). Then e
 
 A list of Master VMs will be given to you during the workshop.
 
-Please pick one Master VM and write your name on the right part of the document.
+**Please pick one Cluster** and write your name on the right part of the document.
 
-![image-20201011211310267](images/image-20201011211310267-2443590.png)
+![image-20201013103756190](images/image-20201013103756190-2578276.png)
 
 You only need to know the Master Node VM to work on the labs.
 
