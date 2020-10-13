@@ -47,7 +47,7 @@ Server: &version.Version{SemVer:"v2.12.3+icp", GitCommit:"", GitTreeState:""}
 Another important step is to access to the **ICP container registry**:
 
 ````
-
+docker login $CLUSTERNAME.icp:8500 -u admin -p $CLUSTERPASS
 ````
 
 
@@ -55,7 +55,7 @@ Another important step is to access to the **ICP container registry**:
 Results:
 
 ```bash
-# docker login mycluster.icp:8500 -u admin -p pass1!
+# docker login mycluster.icp:8500 -u admin -p nicekkk-
 WARNING! Using --password via the CLI is insecure. Use --password-stdin.
 Login Succeeded
 ```
@@ -77,7 +77,7 @@ Login Succeeded
 Results:
 
 ```bash
-[root@nicekkk01 hellonginx]# tree .
+# tree .
 .
 ├── charts
 ├── Chart.yaml
@@ -86,15 +86,18 @@ Results:
 │   ├── _helpers.tpl
 │   ├── ingress.yaml
 │   ├── NOTES.txt
-│   └── service.yaml
+│   ├── service.yaml
+│   └── tests
+│       └── test-connection.yaml
 └── values.yaml
+
 ```
 
 Edit the value.yaml file:
 
 `nano values.yaml`
 
-Look at **values.yaml** and **modify it**. 
+Look at **values.yaml** and **modify it**. With nano, use **Ctrl+k** to delete a line.
 
 Replace the **service section** and choose a port (like 30073 for instance) with the following code:
 
@@ -120,7 +123,7 @@ Exit the file (ctrl+x).
 Then review the **service template**:
 `nano /root/hellonginx/templates/service.yaml`
 
-Change the **ports section** with the following code (don't introduce any TAB in the file):
+Change the **ports section** with the following code (don't introduce any TAB in the file and respect the indentation):
 
 ```bash
   ports:
@@ -237,6 +240,8 @@ NOTES:
 
 
 As you can see, we installed 2 Kubernetes resources : a **deployment** and a **service**.
+
+**In case of error**, you can delete your release : `helm del --purge hellonginx —tls`
 
 Check the pods are running in the training namespace:
 
@@ -419,8 +424,11 @@ Results:
 Successfully packaged chart and saved it to: /root/hellonginx-0.1.0.tgz
 ```
 
-**Login** to the master:
-`cloudctl login -a https://<masterip>:8443 --skip-ssl-validation`
+**Login** to IBM Cloud Private:
+
+```bash
+cloudctl login -a https://$CLUSTERNAME.icp:8443 --skip-ssl-validation -u admin -p $CLUSTERPASS -n default
+```
 
 Then, use the **cloudctl catalog** command to load the chart:
 `cloudctl catalog load-helm-chart --archive /root/hellonginx-0.1.0.tgz`
@@ -429,11 +437,10 @@ Results:
 
 ``` bash
 # cloudctl catalog load-helm-chart --archive /root/hellonginx-0.1.0.tgz
-Loading helm chart
-Loaded helm chart
+Loading Helm chart
+Loaded Helm chart
 
-Synch charts
-Synch started
+Synch charts on repo: local-charts
 OK
 ```
 
@@ -455,7 +462,7 @@ Leave the terminal and login to the ICP console with admin/admin :
 ![image-20190708153156317](images/image-20190708153156317-2592716.png)
 
 Click on Parameters at the bottom of the first page. 
-Find and change the **release name**, the **namspace** and the **nodeport** (for example 30075).
+Find and change the **release name**, the **namespace**, the **service name** and the **nodeport** (for example 30075).
 
 Click **Install** to see the results. 
 
