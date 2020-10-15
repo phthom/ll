@@ -118,7 +118,8 @@ Ensure the nginx service is accessible.
 
 `kubectl run --namespace=policy-demo access --rm -ti --image busybox /bin/sh`
 
-If you don't see a command prompt, try pressing enter.
+If you don't see a command prompt, try pressing enter. 
+
 Results:
 
 ```console 
@@ -191,6 +192,8 @@ Results:
 networkpolicy.networking.k8s.io "default-deny" created
 ```
 
+> Notice that the **matchedLabels** has been set to {} which means NO AUTHORIZATIONS.
+
 Now test isolation. This will prevent all access to the nginx Service. We can see the effect by trying to access the Service again.
 
 `kubectl run --namespace=policy-demo access --rm -ti --image busybox /bin/sh` 
@@ -247,7 +250,9 @@ Results:
 networkpolicy.networking.k8s.io "access-nginx" created
 ```
 
-> Note: The NetworkPolicy allows traffic from Pods with the label run: access to Pods with the label run: nginx. These are the labels automatically added to Pods started via kubectl run based on the name of the Deployment.
+> **Important**: The NetworkPolicy allows traffic from Pods with the **label run: access**. 
+>
+> This label is automatically added to Pods started via **kubectl run** based on the **name of the Deployment**. In the next command, we will run the pod with a name access. Of course, we can assign or define different labels. 
 
 We should now be able to access the Service from the access Pod.
 
