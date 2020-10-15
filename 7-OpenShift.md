@@ -1,4 +1,4 @@
-# OpenShift Preparation Labs
+# OpenShift Labs
 
 
 
@@ -6,7 +6,7 @@
 
 
 
-Duration: 30 minutes
+Duration: 40 minutes
 
 
 
@@ -25,6 +25,12 @@ As you can see on the picture, you will connect to the OpenShift Cluster Web UI 
 ## Task #1 - IBM Cloud account
 
 The OpenShift platform that we are going to use has been built on IBM Cloud. 
+
+```http
+https://cloud.ibm.com/login
+```
+
+
 
 Type your User ID password and click Login button given by the **instructor**:
 
@@ -46,9 +52,7 @@ The instructor will also give you some informations:
 
 ## Task #2 - Connecting to the OpenShift Console
 
-To get access to the OpenShift Console, first connect to **IBM Cloud with your own credentials**. 
-
-The instructor should have authorized you to get access to the Kevin Account. On the top right of the screen, click your name and then you should see the Kevin's account (click on the Kevin's account):
+The instructor should have authorized you to get access to the Kevin Account. On the top right of the screen, click your name and then you should see the **Kevin**'s account (click on the Kevin's account):
 
 ![image-20200405143523141](images/image-20200405143523141-6090123.png)
 
@@ -90,13 +94,13 @@ In fact, you will need to use the **oc** command during the labs. If you need so
 
 <https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-cli>
 
-This link is very practical to download both the **oc** and the associated **kubectl**.
-
 > During the labs, you will notice that the oc command is a superset of the kubectl command. 
 >
 > To view a local version of the OpenShift dashboard and to deploy apps into your Red Hat OpenShift on IBM Cloud clusters, install the OpenShift Origin CLI (`oc`). The `oc` CLI includes a matching version of the Kubernetes CLI (`kubectl`). For more information, see the [OpenShift docs ![External link icon](https://cloud.ibm.com/docs-content/v1/content/9f1f0e8497919a12c28ba837f4a351d74747fe0b/icons/launch-glyph.svg)](https://docs.openshift.com/container-platform/3.11/cli_reference/get_started_cli.html).
 
-From the top of the page, locate and click the interrogation mark and the Command line tools:
+
+
+From the top of the page, locate and click the interrogation mark and the **Command line tools**:
 
 ![image-20200405145753064](images/image-20200405145753064-6091473.png)
 
@@ -234,7 +238,7 @@ Switch to the **Developer** profile and click on **Topology**:
 
 ![image-20200405152515996](images/image-20200405152515996-6093116.png)
 
-Select on your project name (labprojxx): 
+Select on your **project** name (labprojxx): 
 
 ![image-20200405152622960](images/image-20200405152622960-6093183.png)
 
@@ -306,7 +310,7 @@ You can now see some details of your application: Pods, Builds, Service and Rout
 
 ![image-20200405154407927](images/image-20200405154407927-6094247.png)
 
-To get access to your application, you have to find the route: go to **Application** on the pane and the click on  the blue**Route Link** and voilà ! You get access to your application.
+To get access to your application, you have to find the route: go to **Application** on the pane and the click on  the blue **Route Link** and voilà ! You get access to your application.
 
 ![image-20200405154548757](images/image-20200405154548757-6094348.png)
 
@@ -314,46 +318,9 @@ To get access to your application, you have to find the route: go to **Applicati
 
 
 
-## Task #5 - Connect to your OpenShift Cluster
-
-To get access to the OpenShift Web Console, first connect to **IBM Cloud with your own credentials**. 
-
-And then click on the blue button in the OpenShift Cluster:
-
-![image-20200405155311875](images/image-20200405155311875-6094791.png)
+## Task #5 - Delete your Application
 
 
-
-Be sure you also have opened a terminal or a command line window and that you are connected (remember that you can get your token from the "Copy login Command"):
-
-![image-20200405155657774](images/image-20200405155657774-6095017.png)
-
-```shell
-oc login --token=WSbrwyMhiUFRwN5vHw0eqchqwYyVNJFDvw-aKiffDTQ --server=https://c107-e.us-south.containers.cloud.ibm.com:30322
-```
-
-
-
-Be sure you are working on your **project**<xx> by typing the following command:
-
-```bash
-oc status
-```
-
-Results:
-
-```bash
-oc status
-In project Testing project for education (labproj99) on server https://c107-e.us-south.containers.cloud.ibm.com:30322
-
-http://nodejs-labproj99.niceam-ba36b2ed0b6b09dbc627b56ceec2f2a4-0000.us-south.containers.appdomain.cloud to pod port 8080-tcp (svc/nodejs)
-  deployment/nodejs deploys istag/nodejs:latest <-
-    bc/nodejs source builds https://github.com/sclorg/nodejs-ex.git on openshift/nodejs:10-SCL 
-    deployment #2 running for 17 minutes - 1 pod
-    deployment #1 deployed 18 minutes ago
-```
-
-From the web console, you go to your project<xx> and delete the previous application.
 
 Click on the black button "**nodejs-app**" to show the right pane:
 
@@ -371,7 +338,7 @@ The project should be empty.
 
 
 
-## Task #6 - Starting a basic application
+## Task #6 - Starting a new basic application
 
 For this exercise, we will use the CLI and then switch to the OpenShift web console.
 
@@ -691,7 +658,7 @@ And after a while, you will see 2 active pods.
 
 
 
-This mens that now 2 pods are serving the requests behin the same service. And all the requests will go in round robin automatically on one or the other pods.  
+This means that now 2 pods are serving the requests behin the same service. And all the requests will go in round robin automatically on one or the other pods.  
 
 Now click on one of these new pods and you should a page like this one:
 
